@@ -1,7 +1,54 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./TitleCards.css";
-const TitleCards = () => {
-  return <div className="titlecards"></div>;
+
+const TitleCards = ({ title, category }) => {
+  const cardsRef = useRef();
+
+  const [apiData, setApiData] = useState([]);
+
+  const handleWheel = (e) => {
+    e.preventDefault();
+    cardsRef.current.scrollLeft += e.deltaY;
+  };
+
+  useEffect(() => {
+    const url = `https://api.themoviedb.org/3/movie/${
+      category ? category : "now_playing"
+    }?language=en-US&page=1`;
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+      },
+    };
+
+    fetch(url, options)
+      .then((res) => res.json())
+      .then((res) => setApiData(res.results || []))
+      .catch((err) => console.error(err));
+
+    cardsRef.current.addEventListener("wheel", handleWheel);
+  }, [category]);
+
+  return (
+    <div className="title-cards">
+      <h2>{title ? title : "Popular on Netflix"}</h2>
+      <div className="card-list" ref={cardsRef}>
+        {apiData.map((card, idx) => {
+          return (
+            <div className="card" key={idx}>
+              <img
+                src={`https://image.tmdb.org/t/p/w500/` + card.backdrop_path}
+                alt=""
+              />
+              <p>{card.original_title}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default TitleCards;
