@@ -5,24 +5,28 @@ import Login from "./pages/Login/Login";
 import Player from "./pages/Player/Player";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("Logged In");
-        navigate("/");
+        if (location.pathname === "/login") {
+          navigate("/");
+        }
       } else {
         console.log("Logged Out");
         navigate("/login");
       }
     });
-  }, [navigate]);
+    return () => unsubscribe();
+  }, [navigate, location.pathname]);
 
   return (
     <div>
