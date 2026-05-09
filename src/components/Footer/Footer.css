@@ -13,13 +13,29 @@
 .footer-icons img {
   width: 30px;
   cursor: pointer;
+  transition: opacity 0.2s;
 }
+
+.footer-icons img:hover {
+  opacity: 0.7;
+}
+
 .footer ul {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: repeat(4, 1fr);
   gap: 15px;
   margin-bottom: 30px;
   list-style: none;
+}
+
+.footer ul li {
+  font-size: 13px;
+  color: #808080;
+  cursor: pointer;
+}
+
+.footer ul li:hover {
+  text-decoration: underline;
 }
 
 .copyright-text {
@@ -32,8 +48,41 @@
     width: 25px;
   }
   .footer ul {
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 500px) {
+  .footer {
+    padding: 20px 5%;
+  }
+  .footer-icons {
+    margin: 25px 0;
+    gap: 14px;
+  }
+  .footer-icons img {
+    width: 22px;
+  }
+  .footer ul {
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
-    font-size: 14px;
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  .copyright-text {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .footer ul {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .footer-icons {
+    flex-wrap: wrap;
+    gap: 12px;
   }
 }

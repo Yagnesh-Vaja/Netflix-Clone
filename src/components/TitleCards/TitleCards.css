@@ -5,12 +5,15 @@
 
 .title-cards h2 {
   margin-bottom: 8px;
+  font-size: 24px;
 }
 
 .card-list {
   display: flex;
   gap: 10px;
   overflow-x: scroll;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .card-list::-webkit-scrollbar {
@@ -21,10 +24,17 @@
   width: 240px;
   border-radius: 4px;
   cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.card-list img:hover {
+  transform: scale(1.05);
 }
 
 .card-list .card {
   position: relative;
+  flex-shrink: 0;
 }
 
 .card-list .card p {
@@ -33,6 +43,13 @@
   right: 10px;
   text-decoration: none;
   color: #fff;
+  font-size: 13px;
+}
+
+@media (max-width: 1024px) {
+  .card-list img {
+    width: 210px;
+  }
 }
 
 @media (max-width: 800px) {
@@ -41,24 +58,47 @@
     margin-bottom: 0;
   }
   .title-cards h2 {
-    font-size: 20px;
+    font-size: 18px;
   }
   .card-list img {
-    width: 200px;
+    width: 180px;
   }
-  .card-list p {
-    font-size: 12px;
+  .card-list .card p {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 600px) {
+  .title-cards h2 {
+    font-size: 16px;
+  }
+  .card-list {
+    gap: 8px;
+  }
+  .card-list img {
+    width: 150px;
   }
 }
 
 @media (max-width: 500px) {
   .title-cards h2 {
-    font-size: 15px;
+    font-size: 14px;
   }
   .card-list img {
-    width: 165px;
+    width: 130px;
   }
-  .card-list p {
-    font-size: 10px;
+  .card-list .card p {
+    font-size: 9px;
+    bottom: 6px;
+    right: 6px;
+  }
+}
+
+@media (max-width: 360px) {
+  .card-list img {
+    width: 112px;
+  }
+  .card-list {
+    gap: 6px;
   }
 }

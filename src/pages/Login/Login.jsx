@@ -33,7 +33,7 @@ const Login = () => {
       <img src={logo} className="login-logo" alt="" />
       <div className="login-form">
         <h1>{signState}</h1>
-        <form>
+        <form onSubmit={user_auth}>
           {signState === "Sign Up" ? (
             <input
               value={name}
@@ -42,6 +42,7 @@ const Login = () => {
               }}
               type="text"
               placeholder="Your name"
+              required
             />
           ) : (
             <></>
@@ -53,6 +54,7 @@ const Login = () => {
             }}
             type="email"
             placeholder="Email"
+            required
           />
           <input
             value={password}
@@ -61,10 +63,9 @@ const Login = () => {
             }}
             type="password"
             placeholder="Password"
+            required
           />
-          <button onClick={user_auth} type="submit">
-            {signState}
-          </button>
+          <button type="submit">{signState}</button>
           <div className="form-help">
             <div className="remember">
               <input type="checkbox" />

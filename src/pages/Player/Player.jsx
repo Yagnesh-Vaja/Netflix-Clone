@@ -11,38 +11,39 @@ const Player = () => {
     name: "",
     key: "",
     published_at: "",
-    typeof: "",
+    type: "",
   });
 
-  const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODJmYzY0ZjZkMmRjMTA0MTczZGYyN2Q5YTJlNDM4YyIsIm5iZiI6MTc3NzMyMDYxMi45MjEsInN1YiI6IjY5ZWZjMmE0Njk5NzIyNzc3Yzg5YWZhYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.U6CGQ2YK70d0_6eSUhHboQM9qNWJVzALEYGEUMjZRkE",
-    },
-  };
-
   useEffect(() => {
+    const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+      },
+    };
+
     fetch(url, options)
       .then((response) => response.json())
-      .then((response) => setApiData(response.results[0]))
+      .then((response) => {
+        if (response.results && response.results.length > 0) {
+          setApiData(response.results[0]);
+        }
+      })
       .catch((err) => console.error(err));
-  }, []);
+  }, [id]);
 
   return (
     <div className="player">
       <img
         src={back_arrow_icon}
-        alt=""
-        onClick={() => {
-          navigate(-2);
-        }}
+        alt="Back"
+        className="back-arrow"
+        onClick={() => navigate(-2)}
       />
       <iframe
-        width="90%"
-        height="90%"
+        className="player-iframe"
         src={`https://www.youtube.com/embed/${apiData.key}`}
         title="trailer"
         frameBorder="0"

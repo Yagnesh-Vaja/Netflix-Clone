@@ -7,11 +7,6 @@ const TitleCards = ({ title, category }) => {
 
   const [apiData, setApiData] = useState([]);
 
-  const handleWheel = (e) => {
-    e.preventDefault();
-    cardsRef.current.scrollLeft += e.deltaY;
-  };
-
   useEffect(() => {
     const url = `https://api.themoviedb.org/3/movie/${
       category ? category : "now_playing"
@@ -28,9 +23,18 @@ const TitleCards = ({ title, category }) => {
       .then((res) => res.json())
       .then((res) => setApiData(res.results || []))
       .catch((err) => console.error(err));
-
-    cardsRef.current.addEventListener("wheel", handleWheel);
   }, [category]);
+
+  useEffect(() => {
+    const node = cardsRef.current;
+    if (!node) return;
+    const handleWheel = (e) => {
+      e.preventDefault();
+      node.scrollLeft += e.deltaY;
+    };
+    node.addEventListener("wheel", handleWheel, { passive: false });
+    return () => node.removeEventListener("wheel", handleWheel);
+  }, []);
 
   return (
     <div className="title-cards">
